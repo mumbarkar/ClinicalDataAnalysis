@@ -3,16 +3,43 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinydashboard
+#' @import shinythemes
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("ClinicalDataAnalysis")
-    )
-  )
+    shinyUI(
+      navbarPage(
+        windowTitle = "App Landing Page",
+        title = div(img(src = "bftb_logo_v8_bare.png", height = "30px"), "Clinical Data Analysis"),
+        theme = shinythemes::shinytheme("superhero"),
+        tabPanel("Toolbox", icon = icon("wrench"),
+                 shinydashboard::dashboardPage(
+                   skin = "black",
+                   header = shinydashboard::dashboardHeader(title = "Clinical Data Analysis", titleWidth = 400),
+                   shinydashboard::dashboardSidebar(
+                     width = 300 ,
+                     shinydashboard::sidebarMenu(
+                       shinydashboard::menuItem(
+                         "Import Data", tabName = "data_import", icon = icon("database")
+                       ),
+                       shinydashboard::menuItem("Data Analysis", tabName = "data_analysis", icon = icon("magnifying-glass-chart"),
+                                                shinydashboard::menuSubItem("Exploratory Data Analysis",tabName = "ana_eda",icon = icon("fas fa-map-signs")),
+                                                shinydashboard::menuSubItem("Propensity Score Matching",tabName = "ana_psm",icon = icon("equals")),
+                                                shinydashboard::menuSubItem("Kaplan-Miere Analysis",tabName = "ana_km",icon = icon("stairs"))
+                       ),
+                       shinydashboard::menuItem(
+                         "Data Visualization", tabName = "data_viz", icon = icon("chart-simple")
+                       )
+                     )
+                   ),
+                   shinydashboard::dashboardBody(
+                   )
+                 ))
+      )))
 }
 
 #' Add external Resources to the Application
