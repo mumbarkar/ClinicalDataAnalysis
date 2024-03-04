@@ -7,4 +7,5 @@
 app_server <- function(input, output, session) {
   # Your application server logic
   # mod_histogram_server("hist1")
+  mod_data_import_server("data_table")
 }

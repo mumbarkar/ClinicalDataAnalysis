@@ -15,7 +15,7 @@ app_ui <- function(request) {
       navbarPage(
         windowTitle = "App Landing Page",
         title = div(img(src = "bftb_logo_v8_bare.png", height = "30px"), "Clinical Data Analysis"),
-        theme = shinythemes::shinytheme("superhero"),
+        theme = shinythemes::shinytheme("cerulean"),
         tabPanel("Toolbox", icon = icon("wrench"),
                  shinydashboard::dashboardPage(
                    skin = "black",
@@ -37,6 +37,7 @@ app_ui <- function(request) {
                      )
                    ),
                    shinydashboard::dashboardBody(
+                     mod_data_import_ui("data_table")
                    )
                  ))
       )))
