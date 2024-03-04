@@ -7,5 +7,6 @@
 app_server <- function(input, output, session) {
   # Your application server logic
   # mod_histogram_server("hist1")
-  mod_data_import_server("data_table")
+  input_data <- mod_data_import_server("data_table")
+  mod_km_plot_server("km_plot", data = input_data)
 }

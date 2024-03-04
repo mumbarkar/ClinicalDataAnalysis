@@ -37,7 +37,8 @@ app_ui <- function(request) {
                      )
                    ),
                    shinydashboard::dashboardBody(
-                     mod_data_import_ui("data_table")
+                     mod_data_import_ui("data_table"),
+                     mod_km_plot_ui("km_plot")
                    )
                  ))
       )))
