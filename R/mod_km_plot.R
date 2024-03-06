@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-#' @import survival
+#' @import survival survminer
 mod_km_plot_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -30,9 +30,25 @@ mod_km_plot_server <- function(id, data){
     output$km_plot <- renderPlot({
       req(data())
       # Create survival object
-      surv_obj <- Surv(data()[["time"]], data()[["status"]])
+      fit <- survfit(Surv(data()[["time"]], data()[["status"]]) ~ data() [["sex"]], data = data())
+
       # Create KM plot
-      plot(survfit(surv_obj~ 1), xlab = "Time", ylab = "Survival Probability", main = "Kaplan-Meier Plot")
+      ggsurvplot(
+        fit,                      # Survival object
+        data = data(),
+        risk.table = "abs_pct",        # Add number of subjects at risk
+        # pval = TRUE,              # Show p-value of the log-rank test
+        conf.int = TRUE,          # Show confidence intervals
+        # palette = c("#E7B800", "#2E9FDF", "#FC4E07"),
+        xlab = "Time",
+        ylab = "Probability of Overall Survival",
+        break.time.by = 90,        # Setting break points for the x axis
+        risk.table.y.text.col = T, # Color code the text in the risk table
+        risk.table.y.text = FALSE,  # Disable row names in the risk table
+        risk.table.height = 0.3,  # Adjust this value as needed
+        ncensor.plot.height = 0.2
+      )
+      # plot(fit, xlab = "Time", ylab = "Survival Probability", main = "Kaplan-Meier Plot")
     })
   })
 }
